@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پرداخت</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">
+      ☰
+    </div>
+
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="courses.html" class="active">دوره‌ها</a>
+      <a href="dashboard.html">داشبورد من</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top:120px; max-width:600px;">
+
+    <h1 class="reveal">درگاه پرداخت امن</h1>
+
+    <section class="page-section reveal" style="text-align: center;">
+      <div id="paymentBox" style="background: #fdfdfd; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h3 id="courseName" style="margin-bottom: 15px;"></h3>
+        <p id="studentName" style="color: #64748b; margin-bottom: 10px;"></p>
+        <p id="price" style="font-size: 1.25rem; font-weight: bold; color: #10b981; margin-bottom: 30px;"></p>
+
+        <div class="btn-box" style="display:flex; gap:15px; justify-content:center;">
+          <button class="main-btn" id="successBtn" style="background:#10b981; border-color:#10b981;">پرداخت موفقیت‌آمیز</button>
+          <button class="main-btn" id="cancelBtn" style="background:#ef4444; border-color:#ef4444;">انصراف</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    function toggleMenu() {
+      navLinks.classList.toggle("active");
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+    }
+
+    menuToggle.addEventListener("click", toggleMenu);
+
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, { threshold: 0.15 });
+    revealElements.forEach((el) => observer.observe(el));
+
+    const data = JSON.parse(localStorage.getItem("checkoutData") || "null");
+    const paymentBox = document.getElementById("paymentBox");
+    const successBtn = document.getElementById("successBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    if (!data || !data.name || !data.price) {
+      paymentBox.innerHTML = "<p>اطلاعات پرداخت یافت نشد.</p>";
+    } else {
+      document.getElementById("courseName").textContent = "خرید دوره: " + data.name;
+      document.getElementById("studentName").textContent = "دانشجو: " + (data.fullName || "نامشخص");
+      document.getElementById("price").textContent = "مبلغ قابل پرداخت: " + Number(data.price).toLocaleString("fa-IR") + " تومان";
+    }
+
+    successBtn.addEventListener("click", function () {
+      const checkoutData = JSON.parse(localStorage.getItem("checkoutData") || "null");
+
+      if (!checkoutData) {
+        paymentBox.innerHTML = "<p>اطلاعاتی برای ثبت نهایی وجود ندارد.</p>";
+        return;
+      }
+
+      const trackingCode = "TRX-" + Math.floor(100000 + Math.random() * 900000);
+      const purchaseDate = new Date().toLocaleDateString("fa-IR");
+
+      const finalCourse = {
+        ...checkoutData,
+        trackingCode: trackingCode,
+        purchaseDate: purchaseDate,
+        status: "active",
+        progress: 0
+      };
+
+      let myCourses = JSON.parse(localStorage.getItem("myCourses") || "[]");
+
+      const alreadyExists = myCourses.some(course =>
+        course.name === finalCourse.name &&
+        course.phone === finalCourse.phone
+      );
+
+      if (!alreadyExists) {
+        myCourses.push(finalCourse);
+        localStorage.setItem("myCourses", JSON.stringify(myCourses));
+      }
+
+      localStorage.removeItem("checkoutData");
+      window.location.href = "dashboard.html";
+    });
+
+    cancelBtn.addEventListener("click", function () {
+      window.location.href = "courses.html";
+    });
+  </script>
+
+</body>
+</html>
+
