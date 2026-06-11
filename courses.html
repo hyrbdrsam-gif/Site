@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دوره‌ها</title>
+  <meta name="description" content="ثبت‌نام دوره‌های آموزش طراحی سایت و مشاهده سرفصل‌ها.">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">
+      ☰
+    </div>
+
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="courses.html" class="active">دوره‌ها</a>
+      <a href="dashboard.html">داشبورد من</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <h1 class="reveal">دوره‌های آموزشی</h1>
+
+    <p class="reveal">
+      دوره مورد نظر خود را انتخاب کنید و یادگیری طراحی سایت را شروع کنید.
+    </p>
+
+    <section class="page-section reveal">
+      <h2>معرفی دوره‌ها</h2>
+
+      <video controls preload="metadata" style="width:100%;border-radius:12px;margin-top:15px;">
+        <source src="intro.mp4" type="video/mp4">
+        مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+      </video>
+    </section>
+
+    <section class="page-section reveal">
+      <div class="card-grid">
+
+        <div class="card" data-course="دوره HTML" data-price="490000">
+          <img src="images (11).jpeg" alt="دوره HTML" loading="lazy">
+          <h3>آموزش HTML</h3>
+          <p>شروع یادگیری طراحی سایت از پایه.</p>
+          <span class="course-price">490,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+        <div class="card" data-course="دوره CSS" data-price="590000">
+          <img src="images (12).jpeg" alt="دوره CSS" loading="lazy">
+          <h3>آموزش CSS</h3>
+          <p>طراحی ظاهر حرفه‌ای صفحات وب.</p>
+          <span class="course-price">590,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+        <div class="card" data-course="دوره Flexbox" data-price="390000">
+          <img src="images (11).jpeg" alt="دوره Flexbox" loading="lazy">
+          <h3>Flexbox</h3>
+          <p>چیدمان مدرن و حرفه‌ای صفحات.</p>
+          <span class="course-price">390,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+        <div class="card" data-course="دوره Grid" data-price="420000">
+          <img src="images (12).jpeg" alt="دوره Grid" loading="lazy">
+          <h3>CSS Grid</h3>
+          <p>ساخت لایه‌بندی‌های پیشرفته.</p>
+          <span class="course-price">420,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+        <div class="card" data-course="دوره Responsive" data-price="460000">
+          <img src="images (11).jpeg" alt="دوره Responsive" loading="lazy">
+          <h3>Responsive Design</h3>
+          <p>طراحی سایت برای موبایل و تبلت.</p>
+          <span class="course-price">460,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+        <div class="card" data-course="دوره پروژه واقعی" data-price="890000">
+          <img src="images (12).jpeg" alt="دوره پروژه واقعی" loading="lazy">
+          <h3>پروژه‌های واقعی</h3>
+          <p>ساخت پروژه‌های واقعی بازار کار.</p>
+          <span class="course-price">890,000 تومان</span>
+
+          <div class="btn-box">
+            <button class="main-btn details-btn">مشاهده سرفصل‌ها</button>
+            <button class="main-btn enroll-btn">ثبت‌نام</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    function toggleMenu() {
+      navLinks.classList.toggle("active");
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+    }
+
+    menuToggle.addEventListener("click", toggleMenu);
+
+    menuToggle.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleMenu();
+      }
+    });
+
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach((el) => observer.observe(el));
+
+    document.querySelectorAll(".details-btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const card = this.closest(".card");
+
+        const courseData = {
+          name: card.dataset.course,
+          price: Number(card.dataset.price)
+        };
+
+        localStorage.setItem("courseDetails", JSON.stringify(courseData));
+        window.location.href = "course-details.html";
+      });
+    });
+
+    document.querySelectorAll(".enroll-btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const card = this.closest(".card");
+
+        const courseData = {
+          name: card.dataset.course,
+          price: Number(card.dataset.price)
+        };
+
+        localStorage.setItem("checkoutData", JSON.stringify(courseData));
+        window.location.href = "enroll.html";
+      });
+    });
+  </script>
+
+</body>
+</html>
+
