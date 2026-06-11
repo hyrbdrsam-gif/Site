@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تماس با ما</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .contact-hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .contact-panel,
+    .contact-info-panel {
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .contact-panel::before,
+    .contact-info-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -80px -80px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(37,99,235,0.18), transparent 70%);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .contact-title {
+      margin-bottom: 10px;
+    }
+
+    .contact-subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.9;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field-wrap {
+      position: relative;
+    }
+
+    .field-icon {
+      position: absolute;
+      top: 44px;
+      right: 14px;
+      font-size: 16px;
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding-right: 42px;
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+    .form-group textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(37,99,235,0.65);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+      background: rgba(255,255,255,0.05);
+      outline: none;
+    }
+
+    .error-text {
+      min-height: 20px;
+    }
+
+    .input-valid {
+      border-color: rgba(16,185,129,0.7) !important;
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.10);
+    }
+
+    .message-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .char-counter {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .char-counter.limit {
+      color: #fbbf24;
+    }
+
+    .char-counter.danger {
+      color: #fda4af;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .submit-btn {
+      min-width: 170px;
+    }
+
+    .submit-btn.loading {
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .submit-btn .btn-text,
+    .submit-btn .btn-loader {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .submit-btn .btn-loader {
+      display: none;
+      gap: 8px;
+    }
+
+    .submit-btn.loading .btn-text {
+      display: none;
+    }
+
+    .submit-btn.loading .btn-loader {
+      display: inline-flex;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .success-box,
+    .server-note {
+      display: none;
+    }
+
+    .server-note {
+      margin-top: 14px;
+      background: rgba(59,130,246,0.10);
+      border: 1px solid rgba(59,130,246,0.35);
+      color: #bfdbfe;
+      border-radius: 12px;
+      padding: 14px;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    .info-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.25);
+      color: #bfdbfe;
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .info-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .info-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37,99,235,0.28);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .info-item h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .info-item p,
+    .info-item a {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .mini-stat {
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px 10px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 22px;
+      color: #93c5fd;
+      margin-bottom: 4px;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .contact-note {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.22);
+      color: #d1fae5;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .contact-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .submit-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">☰</div>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="courses.html">دوره‌ها</a>
+      <a href="dashboard.html">داشبورد من</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html" class="active">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="page-section reveal">
+      <div class="info-badge">پشتیبانی آموزشی • پاسخ‌گویی سریع • ارتباط مستقیم</div>
+      <h1 class="contact-title">ارتباط با تیم آموزش</h1>
+      <p class="contact-subtitle">
+        اگر درباره دوره‌ها، ثبت‌نام، پرداخت، دسترسی به پنل دانشجویی یا مسیر یادگیری سوالی دارید،
+        از طریق فرم زیر برای ما پیام بفرستید. اطلاعات شما با دقت بررسی می‌شود و در کوتاه‌ترین زمان ممکن پاسخ دریافت خواهید کرد.
+      </p>
+
+      <div class="contact-hero">
+        <!-- FORM PANEL -->
+        <div class="contact-panel">
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group field-wrap">
+                <label for="fullName">نام و نام خانوادگی</label>
+                <span class="field-icon">👤</span>
+                <input type="text" id="fullName" name="fullName" placeholder="مثلاً: محمد رضایی" />
+                <small class="error-text" id="fullNameError"></small>
+              </div>
+
+              <div class="form-group field-wrap">
+                <label for="phone">شماره موبایل</label>
+                <span class="field-icon">📱</span>
+                <input type="tel" id="phone" name="phone" placeholder="09123456789" inputmode="numeric" />
+                <small class="error-text" id="phoneError"></small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group field-wrap">
+                <label for="email">ایمیل</label>
+                <span class="field-icon">✉️</span>
+                <input type="email" id="email" name="email" placeholder="example@gmail.com" />
+                <small class="error-text" id="emailError"></small>
+              </div>
+
+              <div class="form-group field-wrap">
+                <label for="subject">موضوع پیام</label>
+                <span class="field-icon">📝</span>
+                <input type="text" id="subject" name="subject" placeholder="مثلاً: مشکل در ثبت‌نام دوره" />
+                <small class="error-text" id="subjectError"></small>
+              </div>
+            </div>
+
+            <div class="form-group field-wrap">
+              <label for="message">متن پیام</label>
+              <span class="field-icon">💬</span>
+              <textarea id="message" name="message" rows="7" maxlength="700" placeholder="پیام خود را با جزئیات بنویسید تا سریع‌تر و دقیق‌تر راهنمایی شوید..."></textarea>
+              <small class="error-text" id="messageError"></small>
+
+              <div class="message-meta">
+                <span class="char-counter" id="charCounter">0 / 700</span>
+                <span class="char-counter">حداقل 10 کاراکتر</span>
+              </div>
+            </div>
+
+            <div class="submit-row">
+              <button type="submit" class="main-btn submit-btn" id="submitBtn">
+                <span class="btn-text">ارسال پیام</span>
+                <span class="btn-loader">
+                  <span class="spinner"></span>
+                  در حال ارسال...
+                </span>
+              </button>
+            </div>
+
+            <div class="success-box" id="successBox">
+              ✅ پیام شما با موفقیت ثبت شد. تیم پشتیبانی به‌زودی با شما در ارتباط خواهد بود.
+            </div>
+
+            <div class="server-note" id="serverNote">
+              توجه: در این نسخه، پیام‌ها داخل مرورگر شما ذخیره می‌شوند. اگر بخواهی،
+              مرحله بعدی می‌توانم این فرم را به **ایمیل واقعی، تلگرام، یا Google Sheets** هم وصل کنم.
+            </div>
+          </form>
+        </div>
+
+        <!-- INFO PANEL -->
+        <aside class="contact-info-panel">
+          <h2>اطلاعات تماس</h2>
+          <p class="contact-subtitle">
+            برای سوالات آموزشی، فنی و ثبت‌نامی می‌توانید از راه‌های زیر با ما در ارتباط باشید.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <h3>شماره تماس</h3>
+              <p>0912 345 6789</p>
+            </div>
+
+            <div class="info-item">
+              <h3>ایمیل پشتیبانی</h3>
+              <p><a href="mailto:support@example.com">support@example.com</a></p>
+            </div>
+
+            <div class="info-item">
+              <h3>ساعات پاسخ‌گویی</h3>
+              <p>شنبه تا پنجشنبه — ۹ صبح تا ۸ شب</p>
+            </div>
+
+            <div class="info-item">
+              <h3>نوع پشتیبانی</h3>
+              <p>راهنمایی ثبت‌نام، مسائل پرداخت، مشاوره دوره‌ها و پیگیری دسترسی دانشجو</p>
+            </div>
+          </div>
+
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <strong>24h</strong>
+              <span>میانگین پاسخ</span>
+            </div>
+            <div class="mini-stat">
+              <strong>100%</strong>
+              <span>پیگیری پیام‌ها</span>
+            </div>
+            <div class="mini-stat">
+              <strong>7/7</strong>
+              <span>دریافت درخواست</span>
+            </div>
+          </div>
+
+          <div class="contact-note">
+            برای دریافت پاسخ سریع‌تر، لطفاً موضوع پیام را دقیق انتخاب کنید و در متن پیام جزئیات لازم را بنویسید.
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+      <div class="footer-links">
+        <a href="index.html">خانه</a>
+        <a href="courses.html">دوره‌ها</a>
+        <a href="dashboard.html">داشبورد من</a>
+        <a href="about.html">درباره ما</a>
+        <a href="contact.html">تماس با ما</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // =========================
+    // Navbar
+    // =========================
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+    const navbar = document.getElementById("navbar");
+
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+        const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", String(!expanded));
+      });
+    }
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 20) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
+    });
+
+    // =========================
+    // Reveal
+    // =========================
+    const revealElements = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      revealElements.forEach((el) => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 80) {
+          el.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("load", revealOnScroll);
+    window.addEventListener("scroll", revealOnScroll);
+
+    // =========================
+    // Form Elements
+    // =========================
+    const contactForm = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const successBox = document.getElementById("successBox");
+    const serverNote = document.getElementById("serverNote");
+    const charCounter = document.getElementById("charCounter");
+
+    const fullName = document.getElementById("fullName");
+    const phone = document.getElementById("phone");
+    const email = document.getElementById("email");
+    const subject = document.getElementById("subject");
+    const message = document.getElementById("message");
+
+    const fullNameError = document.getElementById("fullNameError");
+    const phoneError = document.getElementById("phoneError");
+    const emailError = document.getElementById("emailError");
+    const subjectError = document.getElementById("subjectError");
+    const messageError = document.getElementById("messageError");
+
+    // =========================
+    // Helpers
+    // =========================
+    function setError(input, errorElement, text) {
+      input.classList.add("input-error");
+      input.classList.remove("input-valid");
+      errorElement.textContent = text;
+    }
+
+    function setValid(input, errorElement) {
+      input.classList.remove("input-error");
+      input.classList.add("input-valid");
+      errorElement.textContent = "";
+    }
+
+    function clearState(input, errorElement) {
+      input.classList.remove("input-error");
+      input.classList.remove("input-valid");
+      errorElement.textContent = "";
+    }
+
+    function normalizeDigits(value) {
+      const fa = "۰۱۲۳۴۵۶۷۸۹";
+      const ar = "٠١٢٣٤٥٦٧٨٩";
+      return value
+        .replace(/[۰-۹]/g, d => fa.indexOf(d))
+        .replace(/[٠-٩]/g, d => ar.indexOf(d));
+    }
+
+    // =========================
+    // Validators
+    // =========================
+    function validateFullName() {
+      const value = fullName.value.trim();
+
+      if (!value) {
+        setError(fullName, fullNameError, "لطفاً نام و نام خانوادگی را وارد کنید.");
+        return false;
+      }
+
+      if (value.length < 3) {
+        setError(fullName, fullNameError, "نام وارد شده خیلی کوتاه است.");
+        return false;
+      }
+
+      if (!value.includes(" ")) {
+        setError(fullName, fullNameError, "لطفاً نام و نام خانوادگی را کامل وارد کنید.");
+        return false;
+      }
+
+      setValid(fullName, fullNameError);
+      return true;
+    }
+
+    function validatePhone() {
+      const value = normalizeDigits(phone.value.trim());
+      phone.value = value;
+
+      const regex = /^09\d{9}$/;
+
+      if (!value) {
+        setError(phone, phoneError, "لطفاً شماره موبایل را وارد کنید.");
+        return false;
+      }
+
+      if (!regex.test(value)) {
+        setError(phone, phoneError, "شماره موبایل باید با 09 شروع شود و دقیقاً 11 رقم باشد.");
+        return false;
+      }
+
+      setValid(phone, phoneError);
+      return true;
+    }
+
+    function validateEmail() {
+      const value = email.value.trim();
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!value) {
+        setError(email, emailError, "لطفاً ایمیل را وارد کنید.");
+        return false;
+      }
+
+      if (!regex.test(value)) {
+        setError(email, emailError, "فرمت ایمیل صحیح نیست.");
+        return false;
+      }
+
+      setValid(email, emailError);
+      return true;
+    }
+
+    function validateSubject() {
+      const value = subject.value.trim();
+
+      if (!value) {
+        setError(subject, subjectError, "لطفاً موضوع پیام را وارد کنید.");
+        return false;
+      }
+
+      if (value.length < 4) {
+        setError(subject, subjectError, "موضوع پیام باید واضح‌تر نوشته شود.");
+        return false;
+      }
+
+      setValid(subject, subjectError);
+      return true;
+    }
+
+    function validateMessage() {
+      const value = message.value.trim();
+
+      if (!value) {
+        setError(message, messageError, "لطفاً متن پیام را وارد کنید.");
+        return false;
+      }
+
+      if (value.length < 10) {
+        setError(message, messageError, "متن پیام باید حداقل 10 کاراکتر باشد.");
+        return false;
+      }
+
+      if (value.length > 700) {
+        setError(message, messageError, "متن پیام نباید بیشتر از 700 کاراکتر باشد.");
+        return false;
+      }
+
+      setValid(message, messageError);
+      return true;
+    }
+
+    function updateCounter() {
+      const length = message.value.length;
+      charCounter.textContent = `${length} / 700`;
+
+      charCounter.classList.remove("limit", "danger");
+
+      if (length >= 550 && length < 650) {
+        charCounter.classList.add("limit");
+      } else if (length >= 650) {
+        charCounter.classList.add("danger");
+      }
+    }
+
+    // =========================
+    // Live Validation
+    // =========================
+    fullName.addEventListener("input", validateFullName);
+    phone.addEventListener("input", validatePhone);
+    email.addEventListener("input", validateEmail);
+    subject.addEventListener("input", validateSubject);
+    message.addEventListener("input", () => {
+      updateCounter();
+      validateMessage();
+    });
+
+    [fullName, phone, email, subject, message].forEach((field) => {
+      field.addEventListener("blur", () => {
+        if (!field.value.trim()) {
+          const errorMap = {
+            fullName: fullNameError,
+            phone: phoneError,
+            email: emailError,
+            subject: subjectError,
+            message: messageError
+          };
+          clearState(field, errorMap[field.id]);
+        }
+      });
+    });
+
+    updateCounter();
+
+    // =========================
+    // Submit
+    // =========================
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      successBox.style.display = "none";
+      serverNote.style.display = "none";
+
+      const validFullName = validateFullName();
+      const validPhone = validatePhone();
+      const validEmail = validateEmail();
+      const validSubject = validateSubject();
+      const validMessage = validateMessage();
+
+      if (!(validFullName && validPhone && validEmail && validSubject && validMessage)) {
+        return;
+      }
+
+      submitBtn.classList.add("loading");
+
+      setTimeout(() => {
+        const payload = {
+          fullName: fullName.value.trim(),
+          phone: phone.value.trim(),
+          email: email.value.trim(),
+          subject: subject.value.trim(),
+          message: message.value.trim(),
+          createdAt: new Date().toLocaleString("fa-IR"),
+          status: "new"
+        };
+
+        const messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+        messages.push(payload);
+        localStorage.setItem("contactMessages", JSON.stringify(messages));
+
+        contactForm.reset();
+        updateCounter();
+
+        [fullName, phone, email, subject, message].forEach((field) => {
+          const errorMap = {
+            fullName: fullNameError,
+            phone: phoneError,
+            email: emailError,
+            subject: subjectError,
+            message: messageError
+          };
+          clearState(field, errorMap[field.id]);
+        });
+
+        submitBtn.classList.remove("loading");
+        successBox.style.display = "block";
+        serverNote.style.display = "block";
+
+        setTimeout(() => {
+          successBox.style.display = "none";
+        }, 5000);
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
+
