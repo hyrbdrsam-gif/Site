@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>داشبورد من</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* استایل اختصاصی برای پروگرس‌بار داشبورد */
+    .progress-container {
+      background: #e2e8f0;
+      border-radius: 10px;
+      height: 8px;
+      width: 100%;
+      margin: 10px 0 15px 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      background: #10b981;
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: #e0f2fe;
+      color: #0369a1;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">
+      ☰
+    </div>
+
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="courses.html">دوره‌ها</a>
+      <a href="dashboard.html" class="active">داشبورد من</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top:120px;">
+
+    <h1 class="reveal">داشبورد کاربری من</h1>
+
+    <p class="reveal" style="color: #64748b; margin-bottom: 30px;">
+      به پنل دانشجویی خود خوش آمدید. در این بخش می‌توانید دوره‌های خریداری شده خود را مدیریت و دنبال کنید.
+    </p>
+
+    <section class="page-section reveal">
+      <h2>دوره‌های فعال من</h2>
+      <div class="card-grid" id="coursesContainer" style="margin-top:20px;">
+        <!-- کارت دوره‌ها به صورت پویا با جاوااسکریپت اینجا درج می‌شوند -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    function toggleMenu() {
+      navLinks.classList.toggle("active");
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+    }
+
+    menuToggle.addEventListener("click", toggleMenu);
+
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, { threshold: 0.15 });
+    revealElements.forEach((el) => observer.observe(el));
+
+    // دریافت دوره‌ها از localStorage
+    const myCourses = JSON.parse(localStorage.getItem("myCourses") || "[]");
+    const container = document.getElementById("coursesContainer");
+
+    if (myCourses.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius:12px;">
+          <p style="font-size:1.1rem; color:#64748b; margin-bottom: 15px;">شما هنوز در هیچ دوره‌ای ثبت‌نام نکرده‌اید.</p>
+          <a href="courses.html" class="main-btn" style="display:inline-block;">مشاهده لیست دوره‌ها</a>
+        </div>
+      `;
+    } else {
+      container.innerHTML = "";
+
+      myCourses.forEach(course => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        // انتخاب هوشمند تصویر بر اساس نام دوره
+        let courseImg = "images (11).jpeg";
+        if (course.name.includes("CSS") || course.name.includes("Grid") || course.name.includes("پروژه")) {
+          courseImg = "images (12).jpeg";
+        }
+
+        const progressPercent = course.progress ?? 0;
+
+        card.innerHTML = `
+          <img src="${courseImg}" alt="${course.name}" loading="lazy">
+          <span class="badge">کد پیگیری: ${course.trackingCode || "—"}</span>
+          <h3>${course.name}</h3>
+          
+          <div style="margin: 15px 0 10px 0; font-size: 0.9rem; color: #475569;">
+            <p><strong>تاریخ خرید:</strong> ${course.purchaseDate || "—"}</p>
+            <p><strong>پیشرفت دوره:</strong> ${progressPercent}%</p>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-bar" style="width: ${progressPercent}%"></div>
+          </div>
+
+          <div class="btn-box" style="margin-top:15px;">
+            <button class="main-btn" onclick="alert('به کلاس خوش آمدید! بخش اول به زودی بارگذاری می‌شود.')" style="width:100%">ورود به کلاس</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>
+
