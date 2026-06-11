@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>درباره ما</title>
+  <meta name="description" content="آشنایی با ماموریت، روش آموزش و چشم‌انداز سایت آموزشی طراحی سایت.">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">☰</div>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">صفحه اصلی</a>
+      <a href="courses.html">دوره‌ها</a>
+      <a href="about.html" class="active">درباره ما</a>
+      <a href="contact.html">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>درباره ما</h1>
+    <p>
+      هدف این سایت آموزش طراحی سایت به صورت ساده، پروژه‌محور و کاربردی است تا هر فردی بتواند بدون پیچیدگی وارد دنیای توسعه وب شود.
+    </p>
+
+    <section class="page-section reveal">
+      <div class="card-grid">
+        <div class="card">
+          <h3>ماموریت ما</h3>
+          <p>کمک به افراد برای یادگیری مهارت‌های واقعی طراحی سایت و ورود به بازار کار.</p>
+        </div>
+
+        <div class="card">
+          <h3>روش آموزش</h3>
+          <p>آموزش‌ها به صورت گام‌به‌گام و پروژه‌محور ارائه می‌شوند تا یادگیری عمیق‌تر شود.</p>
+        </div>
+
+        <div class="card">
+          <h3>چشم‌انداز</h3>
+          <p>ساخت جامعه‌ای از طراحان وب که بتوانند پروژه‌های واقعی و حرفه‌ای ایجاد کنند.</p>
+        </div>
+
+        <div class="card">
+          <h3>مهارت‌هایی که یاد می‌گیرید</h3>
+          <p>HTML، CSS، طراحی ریسپانسیو، ساخت پروژه واقعی و ورود به دنیای توسعه وب.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <h3>سایت آموزشی من</h3>
+      <p>یادگیری طراحی سایت به صورت پروژه‌محور، ساده و کاربردی.</p>
+      <div class="footer-links">
+        <a href="index.html">صفحه اصلی</a>
+        <a href="courses.html">دوره‌ها</a>
+        <a href="about.html">درباره ما</a>
+        <a href="contact.html">تماس با ما</a>
+      </div>
+      <p class="copyright">© 2026 تمامی حقوق این سایت محفوظ است.</p>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+    function toggleMenu() {
+      navLinks.classList.toggle("active");
+      toggle.setAttribute("aria-expanded", navLinks.classList.contains("active"));
+    }
+    toggle?.addEventListener("click", toggleMenu);
+
+    const navbar = document.querySelector("nav");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 20) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
+    });
+
+    const reveals = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry => entry.isIntersecting && entry.target.classList.add("active"));
+    },{threshold:0.15});
+    reveals.forEach(el => revealObserver.observe(el));
+
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--x", (e.clientX - rect.left) + "px");
+        card.style.setProperty("--y", (e.clientY - rect.top) + "px");
+      });
+    });
+  </script>
+</body>
+</html>
+
