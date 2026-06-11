@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جزئیات دوره</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">
+      ☰
+    </div>
+
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="courses.html" class="active">دوره‌ها</a>
+      <a href="dashboard.html">داشبورد من</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html">تماس با ما</a>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top:120px;">
+
+    <h1 id="courseTitle" class="reveal">بارگذاری اطلاعات دوره...</h1>
+
+    <section class="page-section reveal">
+      <div style="display:flex; flex-wrap:wrap; gap:30px; align-items:center;">
+        <div style="flex:1; min-width:300px;">
+          <h2>درباره این دوره</h2>
+          <p id="courseDesc">در حال دریافت توضیحات تکمیلی دوره...</p>
+          <p style="font-weight:bold; margin-top:15px;" id="courseDetailPrice"></p>
+          <button class="main-btn" id="startEnrollBtn" style="margin-top:20px;">ثبت‌نام در این دوره</button>
+        </div>
+        <div style="flex:1; min-width:300px; text-align:center;">
+          <img src="images (11).jpeg" id="courseImage" alt="دوره آموزشی" style="max-width:100%; border-radius:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section reveal">
+      <h2>مدرس دوره</h2>
+      <div style="display:flex; align-items:center; gap:20px; margin-top:20px;">
+        <div style="width:80px; height:80px; background:#ddd; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:bold; color:#555;">
+          👨‍🏫
+        </div>
+        <div>
+          <h3>استاد علی محمدی</h3>
+          <p>طراح و توسعه‌دهنده ارشد وب با ۱۰ سال سابقه تدریس تخصصی فرانت‌اند.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section reveal">
+      <h2>سرفصل‌های آموزشی دوره</h2>
+      <ul style="list-style:none; padding:0; margin-top:15px; line-height:2;">
+        <li style="padding:10px 0; border-bottom:1px solid #eee;">📍 <strong>بخش اول:</strong> آشنایی با اصول اولیه و مقدمات پایه</li>
+        <li style="padding:10px 0; border-bottom:1px solid #eee;">📍 <strong>بخش دوم:</strong> پیاده‌سازی پروژه‌های عملی و کاربردی</li>
+        <li style="padding:10px 0; border-bottom:1px solid #eee;">📍 <strong>بخش سوم:</strong> ترفندهای حرفه‌ای بازار کار و بهینه‌سازی</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    function toggleMenu() {
+      navLinks.classList.toggle("active");
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+    }
+
+    menuToggle.addEventListener("click", toggleMenu);
+
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, { threshold: 0.15 });
+    revealElements.forEach((el) => observer.observe(el));
+
+    const details = JSON.parse(localStorage.getItem("courseDetails") || "null");
+
+    if (!details) {
+      document.getElementById("courseTitle").textContent = "اطلاعات دوره یافت نشد";
+    } else {
+      document.getElementById("courseTitle").textContent = details.name;
+      document.getElementById("courseDesc").textContent = `شما در حال بررسی سرفصل‌ها و جزئیات تخصصی "${details.name}" هستید. این دوره به صورت صفر تا صد و کاملاً پروژه‌محور طراحی شده تا شما را مستقیماً وارد بازار کار کند.`;
+      document.getElementById("courseDetailPrice").textContent = `مبلغ سرمایه‌گذاری شما: ${Number(details.price).toLocaleString("fa-IR")} تومان`;
+
+      if (details.name.includes("CSS") || details.name.includes("Grid") || details.name.includes("پروژه")) {
+        document.getElementById("courseImage").src = "images (12).jpeg";
+      } else {
+        document.getElementById("courseImage").src = "images (11).jpeg";
+      }
+    }
+
+    document.getElementById("startEnrollBtn").addEventListener("click", function () {
+      if (details) {
+        localStorage.setItem("checkoutData", JSON.stringify(details));
+        window.location.href = "enroll.html";
+      }
+    });
+  </script>
+
+</body>
+</html>
+
