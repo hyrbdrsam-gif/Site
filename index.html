@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحه اصلی</title>
+<meta name="description" content="آموزش طراحی سایت به صورت پروژه محور و کاربردی برای ورود به بازار کار">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav id="navbar">
+
+<div class="menu-toggle" id="menu-toggle" aria-label="باز کردن منو" aria-expanded="false" role="button" tabindex="0">
+☰
+</div>
+
+<div class="nav-links" id="nav-links">
+<a href="index.html" class="active">خانه</a>
+<a href="courses.html">دوره‌ها</a>
+<a href="about.html">درباره ما</a>
+<a href="contact.html">تماس با ما</a>
+</div>
+
+</nav>
+
+
+<main class="container">
+
+<section class="hero reveal">
+
+<div class="hero-text">
+<h1>یادگیری طراحی سایت از صفر تا بازار کار</h1>
+
+<p>
+در این سایت می‌توانید طراحی سایت را کاملاً پروژه محور یاد بگیرید و وارد بازار کار شوید.
+</p>
+
+<div class="btn-box">
+<a href="courses.html" class="main-btn">مشاهده دوره‌ها</a>
+<a href="about.html" class="main-btn">درباره ما</a>
+</div>
+
+</div>
+
+<div class="hero-image">
+<img src="profile.jpg" alt="آموزش طراحی سایت" loading="lazy">
+</div>
+
+</section>
+
+
+<section class="stats reveal">
+
+<div class="stat-box">
+<h3 data-number="1500" data-suffix="+">0</h3>
+<p>دانشجو</p>
+</div>
+
+<div class="stat-box">
+<h3 data-number="40" data-suffix="+">0</h3>
+<p>دوره آموزشی</p>
+</div>
+
+<div class="stat-box">
+<h3 data-number="98" data-suffix="%">0</h3>
+<p>رضایت دانشجویان</p>
+</div>
+
+<div class="stat-box">
+<h3 data-number="5" data-suffix="+">0</h3>
+<p>سال تجربه</p>
+</div>
+
+</section>
+
+
+<section class="page-section reveal">
+
+<h2>ویژگی‌های سایت</h2>
+
+<div class="card-grid">
+
+<div class="card">
+<h3>آموزش پروژه محور</h3>
+<p>همه آموزش‌ها کاملاً عملی و پروژه محور هستند.</p>
+</div>
+
+<div class="card">
+<h3>پشتیبانی</h3>
+<p>در طول مسیر یادگیری همراه شما هستیم.</p>
+</div>
+
+<div class="card">
+<h3>مسیر شغلی</h3>
+<p>هدف ما آماده کردن شما برای ورود به بازار کار است.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="page-section reveal">
+
+<h2>نمونه دوره‌ها</h2>
+
+<div class="card-grid">
+
+<a href="courses.html" class="card">
+<h3>HTML</h3>
+<p>شروع یادگیری طراحی سایت</p>
+</a>
+
+<a href="courses.html" class="card">
+<h3>CSS</h3>
+<p>طراحی حرفه‌ای صفحات</p>
+</a>
+
+<a href="courses.html" class="card">
+<h3>Flexbox</h3>
+<p>چیدمان مدرن صفحات</p>
+</a>
+
+<a href="courses.html" class="card">
+<h3>Responsive</h3>
+<p>طراحی سایت واکنش‌گرا</p>
+</a>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="footer-content">
+
+<div class="footer-links">
+<a href="index.html">خانه</a>
+<a href="courses.html">دوره‌ها</a>
+<a href="about.html">درباره ما</a>
+<a href="contact.html">تماس با ما</a>
+</div>
+
+<p>© 2026 تمامی حقوق این سایت محفوظ است.</p>
+
+</div>
+
+</footer>
+
+
+<script>
+
+const menuToggle = document.getElementById("menu-toggle")
+const navLinks = document.getElementById("nav-links")
+
+function toggleMenu(){
+
+navLinks.classList.toggle("active")
+
+const expanded = menuToggle.getAttribute("aria-expanded") === "true"
+menuToggle.setAttribute("aria-expanded", !expanded)
+
+}
+
+menuToggle.addEventListener("click", toggleMenu)
+
+menuToggle.addEventListener("keydown",function(e){
+
+if(e.key==="Enter" || e.key===" "){
+e.preventDefault()
+toggleMenu()
+}
+
+})
+
+
+const navbar=document.getElementById("navbar")
+
+window.addEventListener("scroll",function(){
+
+if(window.scrollY>20){
+navbar.classList.add("scrolled")
+}else{
+navbar.classList.remove("scrolled")
+}
+
+})
+
+
+const revealElements=document.querySelectorAll(".reveal")
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+entry.target.classList.add("active")
+}
+
+})
+
+},{threshold:0.15})
+
+revealElements.forEach(el=>observer.observe(el))
+
+
+const stats=document.querySelectorAll(".stat-box h3")
+
+function startCounter(el){
+
+const target=+el.dataset.number
+const suffix=el.dataset.suffix || "+"
+
+let count=0
+
+const step=Math.ceil(target/100)
+
+const interval=setInterval(()=>{
+
+count+=step
+
+if(count>=target){
+count=target
+clearInterval(interval)
+}
+
+el.textContent=count+suffix
+
+},20)
+
+}
+
+const statsObserver=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+stats.forEach(el=>startCounter(el))
+statsObserver.disconnect()
+
+}
+
+})
+
+})
+
+statsObserver.observe(document.querySelector(".stats"))
+
+</script>
+
+</body>
+</html>
+
